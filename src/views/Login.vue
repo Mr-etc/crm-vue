@@ -48,6 +48,7 @@
 <script>
 import { email, required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
+import messages from '@/utils/messages';
 
 export default {
   name: 'login',
@@ -73,6 +74,10 @@ export default {
       this.$router.push('/');
       // console.log(this.v$.email.$dirty);
     }
+  },
+  mounted() {
+    if(messages[this.$route.query.message]) 
+      this.$message(messages[this.$route.query.message]);
   }
 }
 </script>
