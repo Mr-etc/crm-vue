@@ -70,7 +70,7 @@ export default {
         this.v$.$touch();
         return;
       }
-      // this.$router.push('/');
+      this.$router.push('/');
       // console.log(this.v$.email.$dirty);
     }
   }
