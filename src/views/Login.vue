@@ -19,14 +19,14 @@
       <div class="input-field">
         <input id="password" type="password"
           v-model.trim="pass.value"
-          :class="{invalid: v$.value.$dirty && (pass.value.length < pass.minLength)}"
+          :class="{invalid: v$.pass.value.$dirty && (pass.value.length < pass.minLength)}"
         />
         <label for="password">Пароль</label>
         <small class="helper-text invalid"
-          v-if="v$.value.$dirty && (pass.value.length == 0)"
+          v-if="v$.pass.value.$dirty && (pass.value.length == 0)"
         >Поле пароля не должно быть пустым</small>
         <small class="helper-text invalid"
-          v-else-if="v$.value.$dirty && (pass.value.length < pass.minLength)"
+          v-else-if="v$.pass.value.$dirty && (pass.value.length < pass.minLength)"
         >Длина пароля не должна быть менее {{pass.minLength}}! Текущая длина {{pass.value.length}}</small>
       </div>
     </div>
@@ -61,18 +61,27 @@ export default {
   }),
   setup: () => ({ v$: useVuelidate() }),
   validations:{
-    email:{email,required},
-    value:{required}
+    email: {email,required},
+    pass: {
+      value: {required},
+      minLength: {}
+    }
   },
   methods:{
-    onSubmit(){
-      console.log(this.v$);
+    async onSubmit(){
       if(this.v$.$invalid){
         this.v$.$touch();
         return;
       }
-      this.$router.push('/');
-      // console.log(this.v$.email.$dirty);
+      const formData = {
+        email: this.email,
+        password: this.pass.value
+      };
+      try {
+        await this.$store.dispatch('login', formData);
+        this.$router.push('/');
+      } catch (e) {
+      }
     }
   },
   mounted() {
