@@ -99,7 +99,7 @@ export default {
     rules: { checked: (val) => val}
   },
   methods:{
-    onSubmit(){
+    async onSubmit(){
       if(this.v$.$invalid){
         this.v$.$touch();
         return;
@@ -107,9 +107,14 @@ export default {
       const formData = {
         name: this.name,
         email: this.email,
-        pass: this.pass
+        password: this.pass.value
       };
-      this.$router.push('/');
+
+      try {
+        await this.$store.dispatch('register', formData);
+        this.$router.push('/login');
+      } catch (e) {}
+
     }
   }
 };

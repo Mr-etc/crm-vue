@@ -1,3 +1,4 @@
+import {getAuth} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 
 const firebaseObject = initializeApp({
@@ -9,4 +10,5 @@ const firebaseObject = initializeApp({
     appId: "1:742192063383:web:e67f41beae726809aa9ad2"
 });
 
-export { firebaseObject };
+const auth = getAuth(firebaseObject);
+export {firebaseObject, auth };
